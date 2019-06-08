@@ -3,73 +3,48 @@ import React from 'react';
 import { Section, Container } from '@components/global';
 
 import FaqItem from '@common/FaqItem';
-import ExternalLink from '@common/ExternalLink';
 
 const FAQS = [
   {
-    title: 'What tech does Gatsby use?',
+    title: '¿Qué es Subastasautos.com?',
     content: () => (
       <>
-        Enjoy the power of the latest web technologies – React.js , Webpack ,
-        modern JavaScript and CSS and more — all set up and waiting for you to
-        start building
+     Es una empresa que llegó a Argentina a revolucionar la forma de vender autos usados, transformándolo en un proceso rápido, seguro y sin complicaciones. En Subastasautos.com podes tasar tu auto, agendar una inspección y cobrarlo si decidís aceptar la oferta
       </>
     ),
   },
   {
-    title: 'Where can you source data from?',
+    title: '¿Cómo funciona?',
     content: () => (
       <>
-        Gatsby’s rich data plugin ecosystem lets you build sites with the data
-        you want — from one or many sources: Pull data from headless CMSs, SaaS
-        services, APIs, databases, your file system, and more directly into your
-        pages using GraphQL.
+       Lo primero que tenes que hacer es ingresar los datos de tu auto en el formulario de Subastasautos.com. Una vez que obtenes la tasación, agenda en nuestro sitio una inspección para que evaluemos el estado de tu vehículo. Hecho el diagnóstico, te comunicamos la oferta final y, si la aceptas, recibirás tu dinero.
       </>
     ),
   },
   {
-    title: 'How do I scale Gatsby sites?',
+    title: '¿En qué ciudades están presentes?',
     content: () => (
       <>
-        Gatsby.js is Internet Scale. Forget complicated deploys with databases
-        and servers and their expensive, time-consuming setup costs,
-        maintenance, and scaling fears. Gatsby.js builds your site as “static”
-        files which can be deployed easily on dozens of services.
+      Nuestro punto de isnpección se halla ubicado en Norcenter. Podés encontrar la dirección exacta Donde estamos
       </>
     ),
   },
   {
-    title: 'How does do I future-proof my website?',
+    title: '¿Qué tipo de vehículos compran?',
     content: () => (
       <>
-        Do not build a website with last decade’s tech. The future of the web is
-        mobile, JavaScript and APIs—the{` `}
-        <ExternalLink href="https://jamstack.org/">JAMstack</ExternalLink>.
-        Every website is a web app and every web app is a website. Gatsby.js is
-        the universal JavaScript framework you’ve been waiting for.
+        En Vendetuauto.com.ar compramos todo tipo de autos, incluyendo suv, sedán, hatchback, y camionetas. Encontrá tu modelo en nuestro formulario aquí.
       </>
     ),
-  },
-  {
-    title: 'What exactly does Gatsby build?',
-    content: () => (
-      <>
-        Gatsby.js is a static PWA (Progressive Web App) generator. You get code
-        and data splitting out-of-the-box. Gatsby loads only the critical HTML,
-        CSS, data, and JavaScript so your site loads as fast as possible. Once
-        loaded, Gatsby prefetches resources for other pages so clicking around
-        the site feels incredibly fast.
-      </>
-    ),
-  },
+  }
 ];
 
 const Faq = () => (
-  <Section id="faq">
+  <Section id="preguntas-frecuentes">
     <Container>
-      <h1 style={{ marginBottom: 40 }}>Frequently Asked Questions</h1>
+      <h1 style={{ marginBottom: 40, color: 'black' }}>Preguntas Frecuentes</h1>
       <div>
-        {FAQS.map(({ title, content }) => (
+        {FAQS.map(( { title, content }) => (
           <FaqItem title={title} key={title}>
             {content()}
           </FaqItem>

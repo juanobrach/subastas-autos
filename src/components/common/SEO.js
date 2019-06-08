@@ -2,11 +2,11 @@ import React from 'react';
 import Helmet from 'react-helmet';
 
 const SEO_DATA = {
-  description: 'An absurd gatsby starter',
-  title: 'Absurd',
+  description: 'Cotiza tu auto y vendelo rapido.',
+  title: 'Subastas autos',
   url: '',
-  author: 'ajayns',
-  keywords: ['gatsby', 'site', 'absurd'],
+  author: 'jobrach',
+  keywords: ['subastas', 'cotizacion', 'venta', 'autos'],
   twitter: {
     id: '@ajayns08',
     img: '',
@@ -34,7 +34,7 @@ const SEO = () => {
       <meta name="twitter:description" content={SEO_DATA.description} />
       <meta name="twitter:domain" content={SEO_DATA.url} />
       <meta name="twitter:image:src" content={SEO_DATA.img} />
-
+      <meta name="google-site-verification" content="yyHSAIpJ4yyuTbIQRLp4Ap_DQEyYafuphu9P0WCLO5g" />
       <meta name="description" content={SEO_DATA.description} />
       <meta name="keywords" content={SEO_DATA.keywords.join(', ')} />
       <meta name="author" content={SEO_DATA.author} />

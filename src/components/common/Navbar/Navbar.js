@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import AnchorLink from 'react-anchor-link-smooth-scroll';
 import Scrollspy from 'react-scrollspy';
+import Logo from '../Logo';
+
 
 import { Container } from '@components/global';
 import {
@@ -15,9 +17,10 @@ import {
 
 import { ReactComponent as MenuIcon } from '@static/icons/menu.svg';
 
-const NAV_ITEMS = ['About', 'Brands', 'Team', 'FAQ'];
+const NAV_ITEMS = [ 'Como Vender','¿Quiénes somos?', 'Preguntas Frecuentes'];
 
 class Navbar extends Component {
+
   state = {
     mobileMenuOpen: false,
   };
@@ -33,7 +36,7 @@ class Navbar extends Component {
   };
 
   getNavAnchorLink = item => (
-    <AnchorLink href={`#${item.toLowerCase()}`} onClick={this.closeMobileMenu}>
+    <AnchorLink href={`#${item.replace(/\s+/g, '-').toLowerCase()}`} onClick={this.closeMobileMenu}>
       {item}
     </AnchorLink>
   );
@@ -47,7 +50,7 @@ class Navbar extends Component {
         offset={-64}
       >
         {NAV_ITEMS.map(navItem => (
-          <NavItem key={navItem}>{this.getNavAnchorLink(navItem)}</NavItem>
+          <NavItem key={navItem}>{ this.getNavAnchorLink(navItem) }</NavItem>
         ))}
       </Scrollspy>
     </NavListWrapper>
@@ -55,11 +58,12 @@ class Navbar extends Component {
 
   render() {
     const { mobileMenuOpen } = this.state;
-
     return (
       <Nav {...this.props}>
         <StyledContainer>
-          <Brand>Absurd</Brand>
+          <Brand>
+          <Logo backgroundWhite={true} />
+          </Brand>
           <Mobile>
             <button onClick={this.toggleMobileMenu} style={{ color: 'black' }}>
               <MenuIcon />

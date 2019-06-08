@@ -6,6 +6,25 @@ module.exports = {
     `gatsby-plugin-svgr`,
     `gatsby-plugin-styled-components`,
     {
+      resolve: `gatsby-plugin-netlify-functions`,
+      options: {
+        functionsSrc: `${__dirname}/src/lambda`,
+        functionsOutput: `${__dirname}/functions`,
+      },
+    },
+    {
+      resolve:`gatsby-plugin-antd`,
+      options:{
+        style: true
+      }
+    },
+    {
+      resolve:`gatsby-plugin-less`,
+      options:{
+        javascriptEnabled: true
+      }
+    },
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `team`,
@@ -15,8 +34,28 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
+        name: `logos`,
+        path: `${__dirname}/src/images/logos`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
         name: `art`,
         path: `${__dirname}/src/images/art`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `data`,
+        path: `${__dirname}/src/data/`,
+      },
+    },
+     {
+      resolve: `gatsby-transformer-csv`,
+      options: {
+        noheader: false,
       },
     },
     `gatsby-transformer-sharp`,
@@ -24,19 +63,19 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Absurd`,
-        short_name: `absurd`,
+        name: `SubastasAutos`,
+        short_name: `subastasautos`,
         start_url: `/`,
-        background_color: `#8bd8ed`,
-        theme_color: `#8bd8ed`,
+        background_color: `#FF8000`,
+        theme_color: `#FF8000`,
         display: `minimal-ui`,
-        icon: `static/favicon.svg`,
+        icon: `static/icons/favicon-32x32.png`,
       },
     },
     {
       resolve: `gatsby-plugin-google-fonts`,
       options: {
-        fonts: [`average`, `prata\:400,700`],
+        fonts: [`Roboto\:400,700`, `prata\:400,700`, `material icons`],
       },
     },
     {

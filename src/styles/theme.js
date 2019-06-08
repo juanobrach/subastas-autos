@@ -1,7 +1,7 @@
 const theme = {
   font: {
-    primary: `'Prata', serif`,
-    secondary: `'Average', serif`,
+    primary: `'Roboto', serif`,
+    secondary: `'Roboto', serif`,
   },
   font_size: {
     small: 'font-size: 20px; line-height: 30px',
@@ -20,7 +20,24 @@ const theme = {
       light: '#564F62',
       regular: '#211E26',
     },
-    primary: '#8bd8ed',
+    blue:{
+      regular: '#114659',
+      light: '#2091b9'
+    },
+    red:{
+      regular:'#E64947',
+    },
+    orange:{
+      regular: '#FF8000',
+      light  : '#ffa600',
+      lighter: '#E3AE33'
+    },
+    success:{
+      regular:"#418a03",
+      light:"#e5fcd0"
+    },
+    primary: '#FF8000',
+    primaryGradient:'#38AB76',
   },
   screen: {
     xs: '575px',

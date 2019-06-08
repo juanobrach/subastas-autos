@@ -8,9 +8,11 @@ const GlobalStyles = createGlobalStyle`
   ${normalize};
 
   body {
-    font-family: ${props => props.theme.font.secondary};
+    font-family: ${props => props.theme.font.primary};
   }
-
+  .material-icons{
+    font-family:'Material Icons'
+  }
   h1, h2, h3, p {
     margin: 0;
     font-weight: normal;
@@ -53,6 +55,17 @@ const GlobalStyles = createGlobalStyle`
     p {
       ${props => props.theme.font_size.small};
     }
+  }
+
+ input{
+    border: 1px solid black;
+    background-color: transparent;
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+      -webkit-transition-delay: 99999s;
   }
 
   button {

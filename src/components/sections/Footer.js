@@ -1,20 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { StaticQuery, graphql } from 'gatsby';
-import Img from 'gatsby-image';
 
 import { Container } from '@components/global';
 import ExternalLink from '@common/ExternalLink';
 
-import GithubIcon from '@static/icons/github.svg';
 import InstagramIcon from '@static/icons/instagram.svg';
 import TwitterIcon from '@static/icons/twitter.svg';
+import Logo from '../common/Logo';
 
 const SOCIAL = [
-  {
-    icon: GithubIcon,
-    link: 'https://github.com/ajayns/gatsby-absurd',
-  },
   {
     icon: InstagramIcon,
     link: 'https://instagram.com/ajay_ns',
@@ -43,28 +38,15 @@ const Footer = () => (
     `}
     render={data => (
       <React.Fragment>
-        <Art>
-          <Img
-            fluid={data.art_pot.childImageSharp.fluid}
-            style={{ width: 480, maxWidth: '100%', marginBottom: -16 }}
-          />
-        </Art>
         <FooterWrapper>
           <StyledContainer>
             <Copyright>
-              <h2>Absurd</h2>
-              <span>
-                Illustrations by
-                {` `}
-                <ExternalLink href="https://twitter.com/diana_valeanu">
-                  @diana_valeanu
-                </ExternalLink>
-              </span>
+              <Logo backgroundWhite={false} isFooter={true}/>
             </Copyright>
             <SocialIcons>
-              {SOCIAL.map(({ icon, link }) => (
-                <ExternalLink href={link}>
-                  <img src={icon} alt="link" />
+              {SOCIAL.map( ( icon, key ) => (
+                <ExternalLink key={key} href={icon.link}>
+                  <img src={icon.icon} alt="link" />
                 </ExternalLink>
               ))}
             </SocialIcons>
@@ -97,19 +79,20 @@ const FooterWrapper = styled.footer`
 const Copyright = styled.div`
   font-family: ${props => props.theme.font.secondary};
   ${props => props.theme.font_size.small};
-  color: ${props => props.theme.color.black.regular};
-
+  color: ${props => props.theme.color.white.regular};
+  line-height: 20px;
+  display: inline-flex;
+  height: 20px;
+  align-items: center;
   a {
     text-decoration: none;
-    color: inherit;
+    color: white;
   }
-`;
-
-const Art = styled.figure`
-  display: flex;
-  justify-content: center;
-  margin: 0;
-  margin-top: 48px;
+  h2{
+    font-weight:bold;
+    font-size:20px;
+    text-transform:uppercase;
+  }
 `;
 
 const StyledContainer = styled(Container)`

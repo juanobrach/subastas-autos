@@ -4,8 +4,8 @@ import { Container } from '@components/global';
 
 export const Nav = styled.nav`
   padding: 16px 0;
-  background-color: ${props => props.theme.color.primary};
-  position: fixed;
+  background-color: ${props => props.theme.color.white.regular};
+  position: relative;
   width: 100%;
   top: 0;
   z-index: 1000;
@@ -15,6 +15,9 @@ export const StyledContainer = styled(Container)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 20x;
+  font-weight:100;
+
 `;
 
 export const NavListWrapper = styled.div`
@@ -46,8 +49,9 @@ export const NavItem = styled.li`
 
   a {
     text-decoration: none;
-    opacity: 0.7;
+    opacity: 1;
     color: ${props => props.theme.color.black.regular};
+    font-size: 14px;
   }
 
   &.active {
@@ -59,12 +63,12 @@ export const NavItem = styled.li`
 
 export const MobileMenu = styled.div`
   width: 100%;
-  background: ${props => props.theme.color.primary};
+  background: ${props => props.theme.color.white};
 `;
 
 export const Brand = styled.div`
   font-family: ${props => props.theme.font.primary};
-  ${props => props.theme.font_size.large};
+  ${props => props.theme.font_size.small};
 `;
 
 export const Mobile = styled.div`

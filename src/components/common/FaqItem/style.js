@@ -17,6 +17,7 @@ export const Wrapper = styled.div`
     width: 100%;
     text-align: left;
     cursor: pointer;
+    color:${props => props.theme.color.black.lighter};
 
     font-family: ${props => props.theme.font.secondary};
     ${props => props.theme.font_size.regular};

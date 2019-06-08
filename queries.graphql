@@ -1,0 +1,67 @@
+
+
+query AllAutos {
+  allAutosCsv {
+    edges {
+      node {
+        id
+        Marca
+        Modelo
+        _2007
+      }
+    }
+  }
+}
+
+query Marcas {
+  allAutosCsv(filter: {Marca: {ne: ""}}) {
+    distinct(field: Marca)
+  }
+}
+
+query Years($Marcas: String = "CHEVROLET") {
+  allAutosCsv(filter: {Marca: {eq: $Marcas}}) {
+    edges {
+      node {
+        Marca
+        _2007
+        _2008
+        _2009
+        _2010
+        _2011
+        _2012
+        _2013
+        _2014
+        _2015
+        _2016
+        _2017
+        _2018
+        Moneda
+      }
+    }
+  }
+}
+
+
+query Modelo($Marca: String = "CHEVROLET") {
+  allAutosCsv(filter: { Marca: {eq: $Marca} }) {
+    nodes {
+      Marca
+      Modelo
+      _2007
+    }
+  }
+}
+
+query Version($Modelo: String = "A3") {
+  allAutosCsv(filter: {Modelo: {eq: $Modelo}}) {
+    distinct(field: Version)
+    nodes {
+      Marca
+      Modelo
+      Version
+      _2007
+    }
+  }
+}
+

@@ -4,7 +4,7 @@ export const Container = styled.div`
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 16px 16px;
 
   @media (min-width: ${props => props.theme.screen.xs}) {
     max-width: 540px;
@@ -32,9 +32,9 @@ export const Container = styled.div`
 export const Section = styled.section`
   padding: 128px 0;
   overflow: hidden;
-
+  color:white;
   @media (max-width: ${props => props.theme.screen.md}) {
-    padding: 96px 0;
+    padding: 50px 0;
   }
 
   ${props =>
