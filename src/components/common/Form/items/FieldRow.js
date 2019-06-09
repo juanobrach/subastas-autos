@@ -9,48 +9,6 @@ import {
   FieldContainer
 } from '../style';
 
-
-const options_brands = [
-    { value: 'bmw', label: 'BMW' },
-    { value: 'audi', label: 'Audi' },
-    { value: 'fiat', label: 'fiat' }
-  ]
-
-const options_years =[
-  { value: '2010', label: '2010' },
-  { value: '2017', label: '2017' },
-  { value: '2018', label: '2018' },
-]
-
-const options_models = [
-  { value: 'a1', label: 'A1' },
-  { value: 'a3', label: 'A3' },
-  { value: 'a4', label: 'A4' },  
-]
-
-const options_version = [
-  { value: 'v1', label: '1.4 TFSI (125cv) MT Pack Cuero 3Ptas.' },
-  { value: 'v2', label: 'RS3 2.5 TFSI Tiptronic Quattro (400cv) 4Ptas.' },
-  { value: 'v3', label: '2.0 TFSI S-Tronic Front (252cv)' },  
-]
-
-
-  const filterColors = (inputValue) => {
-    let options_arr = [];
-    options_arr = options_years.filter(i =>{
-       return i
-    });
-    return options_arr;
-  };
-
-  const promiseOptions = (inputValue) =>{
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(filterColors(inputValue));
-      }, 1000);
-    });}
-
-
 export default class FieldRow extends React.Component{
   constructor( props ){
     super(props);
@@ -58,7 +16,7 @@ export default class FieldRow extends React.Component{
      isFocus: false,
      select: { value:'' },
      selected: '',
-     valid: ( this.props.errors === undefined  )
+     valid: ( this.props.errors === undefined   )
    }
    this.fieldRef = React.createRef();
 
@@ -112,16 +70,31 @@ export default class FieldRow extends React.Component{
      this.setValue( element.value);
      this.props.setFieldValue( this.props.field.name ,element.value)
      this.props.setFieldTouched( this.props.field.name, true, true);
-    //  if( ref.name === 'brand'){
-    //     // this.props.getYears( element.value, ref.name );
-    //     console.log('ref', element )
-    //     this.props.setFieldValue( 'year', '', false);
-    //     this.props.setFieldTouched('year', false, false)
-    //     this.props.handleChange('year');
+     if( ref.name === 'brand'){
+        // this.props.getYears( element.value, ref.name );
+        ['year', 'model','version'].map( field =>{
+          this.props.setFieldValue( field, '', false);
+          this.props.setFieldTouched(field, false, false)
+          this.props.handleChange(field);
+        })
+     }
+     if( ref.name === 'year'){
+        // this.props.getYears( element.value, ref.name );
+        ['model', 'version'].map( field =>{
+          this.props.setFieldValue( field, '', false);
+          this.props.setFieldTouched(field, false, false)
+          this.props.handleChange(field);
+        })
+      }
 
-    //     this.props.setFieldValue( 'model','', true );
-    //     this.props.setFieldTouched( 'model', true, true);
-    //  }
+      if( ref.name === 'model'){
+        // this.props.getYears( element.value, ref.name );
+        ['version'].map( field =>{
+          this.props.setFieldValue( field, '', false);
+          this.props.setFieldTouched(field, false, false)
+          this.props.handleChange(field);
+        })
+      }
     };
 
   render(){
@@ -139,7 +112,6 @@ export default class FieldRow extends React.Component{
       disabled,
       loadOptions,
       defaultOptions,
-      model_selected,
       openOnLoad
     } = this.props;
     const { isFocus } = this.state;
@@ -147,7 +119,7 @@ export default class FieldRow extends React.Component{
     // console.log('errors', errors);
     // console.log('name', field.name)
     // console.log('dirty', dirty);
-    const isValid = ( openOnLoad  ||  field.name !== undefined && field.value !== '' || errors && errors[field.name] === undefined && field.name !== undefined && field.value !== '');
+    const isValid = ( openOnLoad  ||  ( field.name !== undefined && field.value !== '' ) || (  errors && errors[field.name] === undefined && field.name !== undefined && field.value !== '') ) ;
     // console.log( 'errors' ,errors );
     console.log('value', options )
     return(

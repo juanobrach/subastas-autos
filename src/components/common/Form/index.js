@@ -1,335 +1,185 @@
 import React from 'react';
-import { Form, Field, withFormik } from 'formik';
-import * as Yup from 'yup'; // for everything
-import FieldRow from './items/FieldRow';
-import axios from 'axios';
-
-import { useStaticQuery, Link, graphql } from "gatsby"
+import styled from 'styled-components';
+import { Formik, Field } from 'formik';
 
 
+import {Step1, Step2 } from './steps';
 
-import {
-  Fieldset
-} from './style';
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+const required = value => (value ? undefined : "Ruerido");
 
+const Error = ({ name }) => (
+  <Field
+    name={name}
+    render={({ form: { touched, errors } }) =>
+      touched[name] && errors[name] ? <span>{errors[name]}</span> : null
+    }
+  />
+);
 
-const formikForm = withFormik({
-  enableReinitialize: true,
-  mapPropsToValues: ( props ) => ({ brand: "", year: "", model: "", version:"", email:"", phone:"", budget:"" }),
-  validateOnChange:false,
-  validateOnBlur:false,
-  validationSchema: Yup.object().shape({
-    email: Yup.string().email().required('email is required!'),
-    brand: Yup.string().required('brand is required!'),
-    year: Yup.string().required('year is required!'),
-    model: Yup.string().required('model is required!'),
-    version: Yup.string().required('version is required!'),
-    phone:Yup.string().required('Phone is required!')
-  }),
-  handleSubmit: (values, { setSubmitting }) => {
-
-    // axios.get('http://localhost:34567/hello_fetch',{headers: {
-    //   'Access-Control-Allow-Origin': '*',
-    // }})
-    // .then( res => {
-    //     console.log('response', res )
-    //     setSubmitting(false);
-    //     alert(JSON.stringify(values, null, 2));
-    // })
-    // .catch( () => {
-    //   console.log('Message not sent')
-    // })
-  },
-  displayName: 'BasicForm', // helps with React DevTools
-});
-
-
-const MyForm = props => {
-  console.log( 'props myForm', props )
-  const data = useStaticQuery(
-    graphql`
-    query Marcas{
-      allAutosCsv( filter: { Marca : { ne  : "" } } ){
-        distinct(  field: Marca  )
-        nodes{
-          Marca
-          Marca_ID
-          Modelo
-          Modelo_ID
-          Version
-          Version_ID
-          Moneda
-          _2007
-          _2008
-          _2009
-          _2010
-          _2011
-          _2012
-          _2013
-          _2014
-          _2015
-          _2016
-          _2017
-          _2018
-          _2019
+const WizardSteps = styled.div`
+    ul{
+      list-style-type:none;
+      padding:0;
+      display:flex;
+      justify-content: start;
+      margin: 2em 0;
+      li{
+        position:relative;
+        :nth-child(2),
+        :nth-child(3){
+          margin-left:10%;
+          &:after{
+            position: absolute;
+            content: "";
+            background: white;
+            height: 2px;
+            width: 6.2vw;
+            right: calc(100% + 10%);
+            top: 10px;
+            border-radius: 25px;
+            opacity:.7
+          }
         }
-      } 	
-    }   
-   `
-  )
-  
-  const autos = data.allAutosCsv.nodes;
-  const marcas = data.allAutosCsv.distinct.map( marca => ({ value: marca, label: marca }) );
-
-
-  
-  const brand_selected = props.values.brand || "";
-  const year_selected = props.values.year || undefined;
-  const model_selected = props.values.model || "";
-  const version_selected = props.values.version || "";
-  
-  
-  let years = [];
-  let versions = [];
-  let models = [];
-
-  // by brand
-  const filtered_autos = [];
-  const filtered = autos.forEach( (el, i)=>{
-    if( el.Marca === brand_selected ){
-      filtered_autos.push( el )
+      }
     }
-  })
+`
 
-  // Years with price available
-  filtered_autos.forEach( (el, i)=>{
-    const years_props = ['_2007', '_2008', '_2009', '_2010', '_2011', '_2012', '_2013', '_2014', '_2015', '_2016', '_2017', '_2018', '_2019'];
-    if( el.Marca === brand_selected ){
-      models=[];
-       Object.keys( el ).forEach( ( key )=>{
-          if( years_props.includes( key ) ){
-            if( parseInt( el[key] ) > 0 ){
-              if( years.filter( e =>  e.value === key).length <= 0 ){
-                let year = {
-                  label: key.replace("_",""),
-                  value: key
-                }
-                years.push( year )
-              }
-            }
-          }
-       })
-    }
-  })
-  years.sort( (a, b) =>( a.label > b.label ? -1 : 0 ) )  
-
-  // Models based on brand and year selected with price available
-  if( years.length > 0 ){
-    models = []
-    filtered_autos.forEach( (el, i)=>{
-      const years_props = [year_selected];
-      if( el.Marca === brand_selected  ){
-        // Filtering if element has price available 
-        Object.keys( el ).forEach( ( key )=>{
-            if( years_props.includes( key ) ){
-              // Year field contain the price of the car
-              if( parseInt( el[key] ) > 0 ){
-                // If the year doesnt exists yet, create a new model
-                if( models.filter( e =>  e.value === el.Modelo_ID).length <= 0 ){
-                  let modelo   = {
-                    label: el.Modelo,
-                    value: el.Modelo_ID
-                  }
-                  models.push( modelo )
-                }
-              }
-            }
-         })
-      }
-    })
-  }else{
-    models = []
-  }
-
-  // Version based on model selectecion and price available
-
-  if( models.length > 0 ){
-    filtered_autos.forEach( (el, i)=>{
-      const years_props = [ year_selected ];
-      if( el.Marca === brand_selected  && el.Modelo_ID == model_selected ){
-        // Filtering if element has price available 
-        Object.keys( el ).forEach( ( key )=>{
-            if( years_props.includes( key ) ){
-              if( parseInt( el[key] ) > 0 ){
-
-                // If the year doesnt exists yet, create a new model
-                if( models.filter( e =>  e.value === el.Version_ID).length <= 0 ){
-                  let version   = {
-                    label: el.Version,
-                    value: el.Version_ID
-                  }
-                  versions.push( version )
-                }
-              }
-            }
-         })
-      }
-    })
-  }else{
-    versions = [];
-  }
-
-  let budget = 0;
-  if( versions.length > 0 ){
-    console.log( 'presupuesto')
-    filtered_autos.forEach( (el, i)=>{
-      let years_props = [ year_selected ];
-      if( el.Marca === brand_selected && el.Modelo_ID == model_selected && el.Version_ID === version_selected ){
-        // Filtering if element has price available 
-        Object.keys( el ).forEach( ( key )=>{
-          if( years_props.includes( key ) ){
-            if( year_selected === key  ){
-              // Si tiene precio
-              if( parseInt( el[key] ) > 0 ){
-                console.log('elemento del presupuesto', el );
-                console.log( 'precio', el[key] );
-                budget = el[key];
-              }
-            }
-          }
-         })
-      }
-    })
-  }
-
-  
-  
+const Step = styled.li`
+    opacity: ${ props => props.isActive ? 1 : .5}
+`
 
 
-  const {  values,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting
-        } = props;
-  return(
-    <Form onSubmit={handleSubmit} >
-      <Fieldset>
-        <Field 
-        name="brand" 
-        label={"Marca"} 
-        type="select" 
-        onBlur={handleBlur} 
-        component={FieldRow}
-        options={marcas}
-        onChange={handleChange}
-        value={values.brand}
-        {...props}
-        />
+class Wizard extends React.Component{
 
-        <Field 
-        name="year" 
-        label={"Año"} 
-        onBlur={handleBlur}
-        type="select" 
-        component={FieldRow}
-        disabled={ values.brand === '' }
-        options={years}
-        value={values.year}
-        onChange={handleChange}
-        {...props}
-        />
-
-        <Field 
-        name="model" 
-        label={"Modelo"} 
-        onBlur={handleBlur}
-        type="select" 
-        component={FieldRow}
-        disabled={ values.year === '' }
-        options={models}
-        onChange={handleChange}
-        {...props}
-        />
-
-        <Field 
-        name="version" 
-        label={"Version"} 
-        onBlur={handleBlur}
-        type="select" 
-        component={FieldRow}
-        disabled={ values.model === '' }
-        options={versions}
-        onChange={handleChange}
-        value={ version_selected || '' }
-        {...props}
-        />
-
-        <Field 
-        name="email" 
-        label={"Email"} 
-        onBlur={handleBlur}
-        type="text" 
-        component={FieldRow}
-        disabled={ values.model === '' }
-        onChange={handleChange}
-        {...props}
-        />
-
-         <Field 
-        name="phone" 
-        label={"Telefono"} 
-        onBlur={handleBlur}
-        type="tel" 
-        component={FieldRow}
-        disabled={ values.model === '' }
-        onChange={handleChange}
-        {...props}
-        />
-
-
-        <Field
-        name="budget"
-        type="text"
-        label="PRECIO DEL VEHICULO"
-        value={budget}
-        component={FieldRow}
-        openOnLoad={true}
-        {...props}
-        />
-        
-        <Field 
-        onBlur={handleBlur}
-        type="submit" 
-        component={FieldRow}
-        isSubmitting={isSubmitting}
-        />
-          
-      </Fieldset>  
-    </Form>
-  )
-}
-
-const FormComponentWrapper = formikForm(MyForm);
-
-
-export default class FormComponent extends React.Component{
-  state = {
-    year: []
+  static Page = ({ children, parentState }) => {
+    return children(parentState);
   };
 
-  getYears = (val1, val2) => {
-    console.log( val2)
+  constructor(props) {
+    super(props);
+    this.state = {
+      page: 0,
+      values: props.initialValues
+    };
+  }
+
+  next = values =>
+    this.setState(state => ({
+      page: Math.min(state.page + 1, this.props.children.length - 1),
+      values
+    }));
+
+  previous = () =>
+    this.setState(state => ({
+      page: Math.max(state.page - 1, 0)
+    }));
+
+  validate = values => {
+    const activePage = React.Children.toArray(this.props.children)[
+      this.state.page
+    ];
+    return activePage.props.validate ? activePage.props.validate(values) : {};
+  };
+
+  handleSubmit = (values, bag) => {
+    const { children, onSubmit } = this.props;
+    const { page } = this.state;
+    const isLastPage = page === React.Children.count(children) - 1;
+    if (isLastPage) {
+      return onSubmit(values, bag);
+    } else {
+      this.next(values);
+      bag.setSubmitting(false);
+    }
   };
 
   render(){
+    const { children } = this.props;
+    const { page, values } = this.state;
+    const activePage = React.Children.toArray(children)[page];
+    console.log('active page',activePage);
+    const isLastPage = page === React.Children.count(children) - 1;
     return (
-        <FormComponentWrapper  brands={[]} 
-                               years={this.state.year} 
-                               getYears={this.getYears} 
-                               />
+      <Formik
+      initialValues={values}
+      enableReinitialize={false}
+      validate={this.validate}
+      onSubmit={this.handleSubmit}
+      render={props => (
+        <div className="formWrapper">
+          <WizardSteps>
+            <ul>
+              {
+                [{ label:'Cotiza tu auto', key:0}, { label:'Agenda tu inspeccion', key:1}, {label:'Confirmacion', key:2}].map( ( step ) =>{
+                   const isActive = ( step.key <= parseInt( activePage.key.replace('.','') ) ? true : false );
+                    return <Step isActive={isActive}> (1) {step.label}</Step>
+                })
+              }
+            </ul>
+          </WizardSteps>
+          <form onSubmit={props.handleSubmit}>
+            {React.cloneElement(activePage, { parentState: { ...props } })}
+            <div className="buttons">
+              {page > 0 && (
+                <button type="button" onClick={this.previous}>
+                  « Previous
+                </button>
+              )}
+
+              {!isLastPage && <button type="submit">Next »</button>}
+              {isLastPage && (
+                <button type="submit" disabled={props.isSubmitting}>
+                  Submit
+                </button>
+              )}
+            </div>
+
+          </form>
+        </div>
+      )}
+    />
     )
   }
 
 
 }
+
+const FormComponent = () =>(
+  <Wizard
+      initialValues={{
+        brand: "",
+        year: "",
+        model: "",
+        version: "",
+        email: ""
+      }}
+      onSubmit={(values, actions) => {
+        sleep(300).then(() => {
+          window.alert(JSON.stringify(values, null, 2));
+          actions.setSubmitting(false);
+        });
+      }}
+    >
+      <Wizard.Page
+       validate={values => {
+        const errors = {};
+        if (!values.brand) {
+          errors.brand = "requerido";
+        }
+        return errors;
+      }}
+      >
+        { (props)=>(
+          <Step1 {...props} />
+        )
+      }</Wizard.Page>
+            <Wizard.Page >
+        { (props)=>(
+          <Step2 {...props} />
+        )
+      }</Wizard.Page>
+    </Wizard>
+)
+
+export default FormComponent

@@ -3,6 +3,9 @@ const theme = {
     primary: `'Roboto', serif`,
     secondary: `'Roboto', serif`,
   },
+  shadow:{
+    boxShadow: '-3px 0px 4px 0px #00000036'
+  },
   font_size: {
     small: 'font-size: 20px; line-height: 30px',
     regular: 'font-size: 24px; line-height: 32px',
@@ -37,7 +40,7 @@ const theme = {
       light:"#e5fcd0"
     },
     primary: '#FF8000',
-    primaryGradient:'#38AB76',
+    primaryGradient:'#ff8000b0',
   },
   screen: {
     xs: '575px',

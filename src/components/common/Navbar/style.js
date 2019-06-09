@@ -17,7 +17,7 @@ export const StyledContainer = styled(Container)`
   align-items: center;
   font-size: 20x;
   font-weight:100;
-
+  padding:0;
 `;
 
 export const NavListWrapper = styled.div`

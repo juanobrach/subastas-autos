@@ -7,6 +7,12 @@ export const defaults = {
   padding:'.40px 20px'
 }
 
+export const formWrapper = styled.div`
+  background:White;
+  padding: 5%;
+  box-shadow: ${ props => props.theme.shadow }
+`
+
 export const FieldIconExpand = styled.div`
   position:relative;
   i{

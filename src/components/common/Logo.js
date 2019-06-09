@@ -9,11 +9,8 @@ import styled from 'styled-components';
 const Logo = ({backgroundWhite, isFooter})=>{  
 
   const Img = styled.img`
-   height:80px;
+   height:60px;
    display:inline;
-    @media ( max-width: ${props => props.theme.screen.sm} ) {
-      height:60px;
-    }
   `;
 
   let logoImg = ( backgroundWhite ? LogoImgWhite  : LogoImg );

@@ -1,5 +1,4 @@
 import React from 'react';
-import AsyncSelect from "react-select/lib/Async";
 import ReactSelect from 'react-select';
 import styled from 'styled-components';
 
@@ -78,25 +77,24 @@ const Select = styled(ReactSelect)`
     height:'50px',   
   }`
 
-  const Async = styled(AsyncSelect)`
-  &.selectField__Select.-container  {
-    height:'50px',   
-  }`
+
 
 const SelectField =   React.forwardRef( ( props, ref)=>{
   console.log( 'select field', props )  
   if( ref  && ref.current ){
-    if( props.name === 'year'  &&  props.value == '' ){
+    if( props.name === 'year'  &&  props.value === '' ){
       // ref.current.select.clearValue()
     }
   }                                                                                                                                                                                                                                                                                                                          
 
   const handleChange = ( value, ref )=>{
+    console.log('ref',ref)
+    // props.form.setValues('brand', value)
     props.onChange(value, ref );
   }
 
-  const { id, value, isValid, isFocus, name, onChange, onBlur, onFocus, options, disabled, dirty, loadOptions,defaultOptions, form } = props;
-    console.log('value select', value )
+  const { id, value, isValid, isFocus, name, onBlur, onFocus, options, disabled } = props;
+    console.log('value select', props.field.value )
     return(
          <div>
             <Select 
@@ -111,7 +109,7 @@ const SelectField =   React.forwardRef( ( props, ref)=>{
               id={id}
               ref={ ref }
               isDisabled={disabled}
-              selected={value}
+              value={ options.find( option => option.value === props.field.value)}
               />
               <FieldIconExpand>
                 { isValid && !isFocus && !disabled   ?
